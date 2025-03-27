@@ -32,39 +32,12 @@ public class Search {
     }
 
     /**
-     * Gets the current search keyword
-     *
-     * @return The search keyword
-     */
-    public String getKeyword() {
-        return keyword;
-    }
-
-    /**
      * Sets the search keyword
      *
      * @param keyword The keyword to search for
      */
     public void setKeyword(String keyword) {
         this.keyword = keyword;
-    }
-
-    /**
-     * Gets the list of genres used for filtering
-     *
-     * @return List of genres
-     */
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    /**
-     * Sets the list of genres used for filtering
-     *
-     * @param genres List of genres
-     */
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
     }
 
     /**
@@ -122,89 +95,6 @@ public class Search {
     }
 
     /**
-     * Gets the text content to search for within books
-     *
-     * @return Text content to search
-     */
-    public String getTextBook() {
-        return textBook;
-    }
-
-    /**
-     * Sets the text content to search for within books
-     *
-     * @param textBook Text content to search
-     */
-    public void setTextBook(String textBook) {
-        this.textBook = textBook;
-    }
-
-    /**
-     * Searches books by title
-     *
-     * @param title Title to search for
-     * @return List of books matching the title
-     */
-    public List<Book> searchByTitle(String title) {
-        if (title == null || title.trim().isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        String searchTerm = title.toLowerCase();
-        return library.getCatalogue().stream()
-                .filter(book -> book.getTitle().toLowerCase().contains(searchTerm))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Filters books by genre
-     *
-     * @param genre Genre to filter by
-     * @return List of books with the specified genre
-     */
-    public List<Book> filterByGenre(String genre) {
-        if (genre == null || genre.trim().isEmpty()) {
-            return library.getCatalogue();
-        }
-
-        return library.getCatalogue().stream()
-                .filter(book -> book.getGenres().stream().anyMatch(g -> g.equals(genre)))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Filters books by status
-     *
-     * @param status Status to filter by
-     * @return List of books with the specified status
-     */
-    public List<Book> filterByStatus(String status) {
-        if (status == null || status.trim().isEmpty()) {
-            return library.getCatalogue();
-        }
-
-        return library.getCatalogue().stream()
-                .filter(book -> book.getStatus().equalsIgnoreCase(status))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Filters books by type/class
-     *
-     * @param type Book type to filter by
-     * @return List of books of the specified type
-     */
-    public List<Book> filterByType(String type) {
-        if (type == null || type.trim().isEmpty()) {
-            return library.getCatalogue();
-        }
-
-        return library.getCatalogue().stream()
-                .filter(book -> book.getClass().getSimpleName().equalsIgnoreCase(type))
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Performs an advanced search using all currently set criteria
      *
      * @return List of books matching all criteria
@@ -236,37 +126,5 @@ public class Search {
         }
 
         return results;
-    }
-
-    /**
-     * Searches for text within a specific book's chapters
-     *
-     * @param bookId ID of the book to search in
-     * @param searchText Text to search for
-     * @return List of chapters containing the search text
-     */
-    public List<Chapter> searchInBookContent(int bookId, String searchText) {
-        if (searchText == null || searchText.trim().isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        try {
-            Book book = library.getBookById(bookId);
-            String searchTerm = searchText.toLowerCase();
-
-            return book.getChapters().stream()
-                    .filter(chapter -> {
-                        if (chapter instanceof TextChapter) {
-                            TextChapter textChapter = (TextChapter) chapter;
-                            return textChapter.getContentText() != null &&
-                                    textChapter.getContentText().toLowerCase().contains(searchTerm);
-                        }
-                        return false;
-                    })
-                    .collect(Collectors.toList());
-        } catch (BookNotFoundException e) {
-            System.err.println("Error searching in book content: " + e.getMessage());
-            return Collections.emptyList();
-        }
     }
 }
