@@ -108,7 +108,6 @@ public class TextChapter extends Chapter {
 
         if (contentText != null && !contentText.isEmpty()) {
             System.out.println("\n--- Chapter Preview ---");
-            // Show just the first 100 characters as preview
             String preview = contentText.length() > 100
                     ? contentText.substring(0, 100) + "..."
                     : contentText;

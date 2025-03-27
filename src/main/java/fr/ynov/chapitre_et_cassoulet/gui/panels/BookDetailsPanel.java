@@ -36,7 +36,6 @@ public class BookDetailsPanel extends JPanel {
                 BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Book Details")
         ));
 
-        // Cover panel
         JPanel coverPanel = new JPanel(new BorderLayout());
         coverPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 15));
 
@@ -55,7 +54,6 @@ public class BookDetailsPanel extends JPanel {
         coverPanel.add(bookCover, BorderLayout.CENTER);
         add(coverPanel, BorderLayout.WEST);
 
-        // Info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -136,7 +134,6 @@ public class BookDetailsPanel extends JPanel {
         chaptersScroll.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
         infoPanel.add(chaptersScroll);
 
-        // Add chapter double-click listener
         chaptersList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -181,7 +178,6 @@ public class BookDetailsPanel extends JPanel {
         }
         genresList.setModel(genresModel);
 
-        // Sort chapters numerically by their numOrder before displaying
         sortedChapters = new java.util.ArrayList<>(book.getChapters());
         sortedChapters.sort(Comparator.comparingInt(Chapter::getNumOrder));
 
@@ -191,7 +187,6 @@ public class BookDetailsPanel extends JPanel {
         }
         chaptersList.setModel(chaptersModel);
 
-        // Store the current book for reference in the chapter click handler
         chaptersList.putClientProperty("currentBook", book);
     }
 
@@ -205,23 +200,19 @@ public class BookDetailsPanel extends JPanel {
 
         if (coverPath != null && !coverPath.isEmpty()) {
             try {
-                // First try the exact path from the book
                 File imageFile = new File(coverPath);
 
-                // If not found, try with the new directory structure
                 if (!imageFile.exists()) {
                     String bookType = book.getClass().getSimpleName().toLowerCase();
                     String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
                     String bookName = book.getTitle().replace(" ", " ");
                     String authorName = book.getArtist() != null ? book.getArtist() : "Unknown";
 
-                    // Try to find the book's cover in the new structure
                     String newPath = BookConstants.BOOKS_DIR + bookType + "s/" + bookDir + "/" +
                             bookDir + "/" + bookName + " - " + authorName + ".jpg";
                     imageFile = new File(newPath);
                 }
 
-                // If still not found, try the original path with corrected directory
                 if (!imageFile.exists()) {
                     String bookType = book.getClass().getSimpleName().toLowerCase();
                     String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
@@ -234,7 +225,6 @@ public class BookDetailsPanel extends JPanel {
                     ImageIcon originalIcon = new ImageIcon(imageFile.getPath());
                     Image image = originalIcon.getImage();
 
-                    // Scale the image to fit the label while maintaining aspect ratio
                     int labelWidth = bookCover.getPreferredSize().width;
                     int labelHeight = bookCover.getPreferredSize().height;
 
@@ -249,7 +239,7 @@ public class BookDetailsPanel extends JPanel {
                     ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
                     bookCover.setIcon(scaledIcon);
-                    bookCover.setText("");  // Clear the placeholder text
+                    bookCover.setText("");
                 } else {
                     bookCover.setIcon(null);
                     bookCover.setText("No Cover");

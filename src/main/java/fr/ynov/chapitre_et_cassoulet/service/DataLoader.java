@@ -53,7 +53,6 @@ public class DataLoader {
                 }
             } catch (FileOperationException e) {
                 System.err.println("Error loading book from " + bookDir.getName() + ": " + e.getMessage());
-                // Continue with next book
             }
         }
 
@@ -64,7 +63,6 @@ public class DataLoader {
      * Loads a book from a directory
      */
     private Book loadBook(String bookDirPath, boolean isNovel) throws FileOperationException {
-        // Load book info
         String infoPath = bookDirPath + File.separator + "information";
         File infoDir = new File(infoPath);
 
@@ -369,7 +367,6 @@ public class DataLoader {
     }
 
     public Book parseBook(String json) throws FileOperationException {
-        // Determine if it's a novel or roman based on type field
         String type = extractStringField(json, "type");
         boolean isNovel = type == null || "Novel".equalsIgnoreCase(type);
 

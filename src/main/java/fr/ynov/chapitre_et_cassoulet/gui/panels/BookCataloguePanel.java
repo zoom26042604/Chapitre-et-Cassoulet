@@ -25,7 +25,7 @@ public class BookCataloguePanel extends JPanel {
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make cells non-editable
+                return false;
             }
         };
 

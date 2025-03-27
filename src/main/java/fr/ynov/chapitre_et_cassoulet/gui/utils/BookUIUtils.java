@@ -54,7 +54,6 @@ public class BookUIUtils {
         readerDialog.setSize(900, 700);
         readerDialog.setLocationRelativeTo(parentFrame);
 
-        // Header panel with book and chapter info
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(220, 220, 220)),
@@ -66,10 +65,8 @@ public class BookUIUtils {
         bookInfoLabel.setFont(new Font("Serif", Font.BOLD, 18));
         headerPanel.add(bookInfoLabel, BorderLayout.CENTER);
 
-        // Content panel with chapter text
         JTextArea contentArea = new JTextArea();
 
-        // Handle content based on chapter type
         if (chapter instanceof TextChapter) {
             TextChapter textChapter = (TextChapter) chapter;
             contentArea.setText(textChapter.getContentText());
@@ -87,13 +84,11 @@ public class BookUIUtils {
         JScrollPane scrollPane = new JScrollPane(contentArea);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-        // Ensure scrollpane starts at the top
         SwingUtilities.invokeLater(() -> {
             JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
             verticalScrollBar.setValue(0);
         });
 
-        // Navigation panel with next/prev buttons
         JPanel navigationPanel = new JPanel();
         navigationPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
         navigationPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -106,7 +101,6 @@ public class BookUIUtils {
         JButton closeButton = new JButton("Close");
         JButton nextButton = new JButton("Next Chapter »");
 
-        // Style buttons
         Font buttonFont = new Font("Dialog", Font.PLAIN, 14);
         prevButton.setFont(buttonFont);
         closeButton.setFont(buttonFont);
@@ -116,16 +110,13 @@ public class BookUIUtils {
         navigationPanel.add(closeButton);
         navigationPanel.add(nextButton);
 
-        // Get all chapters sorted by numOrder for navigation
         List<Chapter> sortedChapters = new java.util.ArrayList<>(book.getChapters());
         sortedChapters.sort(Comparator.comparingInt(Chapter::getNumOrder));
         int currentChapterIndex = sortedChapters.indexOf(chapter);
 
-        // Disable buttons if at first/last chapter
         prevButton.setEnabled(currentChapterIndex > 0);
         nextButton.setEnabled(currentChapterIndex < sortedChapters.size() - 1);
 
-        // Add button actions
         prevButton.addActionListener(e -> {
             readerDialog.dispose();
             if (currentChapterIndex > 0) {
@@ -142,12 +133,10 @@ public class BookUIUtils {
 
         closeButton.addActionListener(e -> readerDialog.dispose());
 
-        // Add components to dialog
         readerDialog.add(headerPanel, BorderLayout.NORTH);
         readerDialog.add(scrollPane, BorderLayout.CENTER);
         readerDialog.add(navigationPanel, BorderLayout.SOUTH);
 
-        // Make sure to scroll to top when dialog is shown
         readerDialog.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentShown(java.awt.event.ComponentEvent e) {

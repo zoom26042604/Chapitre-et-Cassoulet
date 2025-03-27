@@ -17,8 +17,6 @@ public class BookSearchPanel extends JPanel {
     /**
      * Constructor for the search panel
      *
-     * @param genres List of available genres from the library
-     * @param statuses List of available statuses from the library
      * @param searchListener Action listener for the search button
      * @param resetListener Action listener for the reset button
      */
