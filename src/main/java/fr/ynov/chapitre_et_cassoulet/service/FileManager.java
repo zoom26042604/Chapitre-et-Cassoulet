@@ -32,7 +32,6 @@ public class FileManager {
         try {
             createDirectoryIfNotExists(BookConstants.DATA_DIR);
             createDirectoryIfNotExists(BookConstants.BOOKS_DIR);
-            createDirectoryIfNotExists(BookConstants.USERS_DIR);
         } catch (IOException e) {
             System.err.println("Error creating application directories: " + e.getMessage());
         }

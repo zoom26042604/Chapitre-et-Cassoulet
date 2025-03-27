@@ -1,13 +1,12 @@
-package main.java.fr.ynov.chapitre_et_cassoulet.ui;
+package main.java.fr.ynov.chapitre_et_cassoulet.gui;
 
-import main.java.fr.ynov.chapitre_et_cassoulet.model.*;
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Library;
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Search;
 import main.java.fr.ynov.chapitre_et_cassoulet.service.FileManager;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookCataloguePanel;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookDetailsPanel;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookSearchPanel;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.utils.BookUIUtils;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookCataloguePanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookDetailsPanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookSearchPanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.utils.BookUIUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

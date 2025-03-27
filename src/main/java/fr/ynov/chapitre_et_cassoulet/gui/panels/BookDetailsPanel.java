@@ -1,11 +1,10 @@
-package main.java.fr.ynov.chapitre_et_cassoulet.ui.panels;
+package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

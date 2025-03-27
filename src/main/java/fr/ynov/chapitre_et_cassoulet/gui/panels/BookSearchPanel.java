@@ -1,4 +1,4 @@
-package main.java.fr.ynov.chapitre_et_cassoulet.ui.panels;
+package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Library;
 

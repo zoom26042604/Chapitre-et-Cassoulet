@@ -1,4 +1,4 @@
-package main.java.fr.ynov.chapitre_et_cassoulet.ui.utils;
+package main.java.fr.ynov.chapitre_et_cassoulet.gui.utils;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.BookNotFoundException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
@@ -6,9 +6,9 @@ import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.TextChapter;
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Library;
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Search;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookCataloguePanel;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookDetailsPanel;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.panels.BookSearchPanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookCataloguePanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookDetailsPanel;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookSearchPanel;
 
 import javax.swing.*;
 import java.awt.*;

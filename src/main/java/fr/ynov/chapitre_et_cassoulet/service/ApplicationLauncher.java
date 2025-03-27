@@ -2,12 +2,10 @@ package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.FileOperationException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.*;
-import main.java.fr.ynov.chapitre_et_cassoulet.ui.Interface;
-import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
+import main.java.fr.ynov.chapitre_et_cassoulet.gui.Interface;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.List;
 
 public class ApplicationLauncher {
 
