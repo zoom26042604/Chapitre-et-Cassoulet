@@ -1,35 +1,42 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.model;
 
+import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
- * Abstract base class representing a book in the library system.
- * Contains common properties and behaviors shared by all types of books.
+ * Abstract class representing a book in the library.
+ * Provides base functionality for all book types.
  */
-public abstract class Book {
+public abstract class Book implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int id;
+    private String type;
     private String title;
     private String description;
     private String coverImagePath;
     private String artist;
-    private final List<String> genres;
-    private final List<String> tags;
-    private Date dateAdded;
     private String status;
-    private int view;
+    private Date dateAdded;
+    private final Set<String> genres;
+    private final Set<String> tags;
     private final List<Chapter> chapters;
 
     /**
-     * Default constructor initializing collections and default values
+     * Default constructor initializing collections and setting default values
      */
     protected Book() {
-        this.genres = new ArrayList<>();
-        this.tags = new ArrayList<>();
+        this.genres = new HashSet<>();
+        this.tags = new HashSet<>();
         this.chapters = new ArrayList<>();
         this.dateAdded = new Date();
-        this.view = 0;
+        this.status = BookConstants.STATUS_ONGOING;
     }
 
     /**
@@ -37,7 +44,7 @@ public abstract class Book {
      *
      * @param id The unique identifier for the book
      * @param title The title of the book
-     * @param description Brief description of the book
+     * @param description A brief description of the book
      * @param coverImagePath Path to the book's cover image
      */
     protected Book(int id, String title, String description, String coverImagePath) {
@@ -60,7 +67,7 @@ public abstract class Book {
     /**
      * Sets the book's unique identifier
      *
-     * @param id The new ID to set
+     * @param id The ID to set
      */
     public void setId(int id) {
         this.id = id;
@@ -69,7 +76,7 @@ public abstract class Book {
     /**
      * Gets the book's title
      *
-     * @return The title of the book
+     * @return The title
      */
     public String getTitle() {
         return title;
@@ -78,7 +85,7 @@ public abstract class Book {
     /**
      * Sets the book's title
      *
-     * @param title The new title to set
+     * @param title The title to set
      */
     public void setTitle(String title) {
         this.title = title;
@@ -87,7 +94,7 @@ public abstract class Book {
     /**
      * Gets the book's description
      *
-     * @return The description of the book
+     * @return The description
      */
     public String getDescription() {
         return description;
@@ -96,7 +103,7 @@ public abstract class Book {
     /**
      * Sets the book's description
      *
-     * @param description The new description to set
+     * @param description The description to set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -114,14 +121,14 @@ public abstract class Book {
     /**
      * Sets the path to the book's cover image
      *
-     * @param coverImagePath The new cover image path to set
+     * @param coverImagePath The cover image path to set
      */
     public void setCoverImagePath(String coverImagePath) {
         this.coverImagePath = coverImagePath;
     }
 
     /**
-     * Gets the artist or author of the book
+     * Gets the artist/author of the book
      *
      * @return The artist's name
      */
@@ -130,7 +137,7 @@ public abstract class Book {
     }
 
     /**
-     * Sets the artist or author of the book
+     * Sets the artist/author of the book
      *
      * @param artist The artist's name to set
      */
@@ -139,52 +146,16 @@ public abstract class Book {
     }
 
     /**
-     * Gets the list of genres associated with the book
+     * Gets the status of the book (ongoing, completed, etc)
      *
-     * @return The list of genres
-     */
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    /**
-     * Gets the list of tags associated with the book
-     *
-     * @return The list of tags
-     */
-    public List<String> getTags() {
-        return tags;
-    }
-
-    /**
-     * Gets the date when the book was added to the library
-     *
-     * @return The date added
-     */
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    /**
-     * Sets the date when the book was added to the library
-     *
-     * @param dateAdded The date to set
-     */
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    /**
-     * Gets the current publication status of the book
-     *
-     * @return The status string
+     * @return The status
      */
     public String getStatus() {
         return status;
     }
 
     /**
-     * Sets the publication status of the book
+     * Sets the status of the book
      *
      * @param status The status to set
      */
@@ -193,98 +164,150 @@ public abstract class Book {
     }
 
     /**
-     * Gets the view count of the book
+     * Gets the date when this book was added
      *
-     * @return The number of views
+     * @return The date added
      */
-    public int getView() {
-        return view;
+    public Date getDateAdded() {
+        return dateAdded;
     }
 
     /**
-     * Sets the view count of the book
+     * Sets the date when this book was added
      *
-     * @param view The view count to set
+     * @param dateAdded The date to set
      */
-    public void setView(int view) {
-        this.view = view;
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
     }
 
     /**
-     * Gets the list of chapters in the book
+     * Gets the set of genres associated with this book
      *
-     * @return The list of chapters
+     * @return The genres
+     */
+    public Set<String> getGenres() {
+        return genres;
+    }
+
+    /**
+     * Adds a genre to this book
+     *
+     * @param genre The genre to add
+     */
+    public void addGenre(String genre) {
+        if (genre != null && !genre.isEmpty()) {
+            genres.add(genre);
+        }
+    }
+
+    /**
+     * Removes a genre from this book
+     *
+     * @param genre The genre to remove
+     */
+    public void removeGenre(String genre) {
+        genres.remove(genre);
+    }
+
+    /**
+     * Gets the set of tags associated with this book
+     *
+     * @return The tags
+     */
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    /**
+     * Adds a tag to this book
+     *
+     * @param tag The tag to add
+     */
+    public void addTag(String tag) {
+        if (tag != null && !tag.isEmpty()) {
+            tags.add(tag);
+        }
+    }
+
+    /**
+     * Removes a tag from this book
+     *
+     * @param tag The tag to remove
+     */
+    public void removeTag(String tag) {
+        tags.remove(tag);
+    }
+
+    /**
+     * Gets the list of chapters in this book
+     *
+     * @return The chapters
      */
     public List<Chapter> getChapters() {
         return chapters;
     }
 
     /**
-     * Adds a chapter to the book
+     * Adds a chapter to this book
      *
      * @param chapter The chapter to add
      */
     public void addChapter(Chapter chapter) {
-        this.chapters.add(chapter);
-    }
-
-    /**
-     * Adds a genre to the book if not already present
-     *
-     * @param genre The genre to add
-     */
-    public void addGenre(String genre) {
-        if (!this.genres.contains(genre)) {
-            this.genres.add(genre);
-        }
-    }
-
-
-    /**
-     * Adds a tag to the book if not already present
-     *
-     * @param tag The tag to add
-     */
-    public void addTag(String tag) {
-        if (!this.tags.contains(tag)) {
-            this.tags.add(tag);
+        if (chapter != null) {
+            chapters.add(chapter);
         }
     }
 
     /**
-     * Increments the view count for this book
+     * Gets the book's explicit type
+     *
+     * @return The explicit type of the book
      */
-    public void incrementView() {
-        this.view++;
+    public String getType() {
+        if (type != null) {
+            return type;
+        }
+        return getClass().getSimpleName();
     }
 
     /**
-     * Gets a chapter by its order number
+     * Removes a chapter from this book
      *
-     * @param number The chapter number to retrieve
-     * @return The chapter with the specified number, or null if not found
+     * @param chapter The chapter to remove
+     * @return true if the chapter was removed, false otherwise
      */
-    public Chapter getChapterByNumber(int number) {
-        return chapters.stream()
-                .filter(chapter -> chapter.getNumOrder() == number)
-                .findFirst()
-                .orElse(null);
+    public boolean removeChapter(Chapter chapter) {
+        return chapters.remove(chapter);
     }
 
     /**
      * Displays detailed information about the book
      */
     public void displayDetails() {
+        System.out.println("Book Details:");
         System.out.println("Title: " + title);
-        System.out.println("Author/Artist: " + artist);
-        System.out.println("Description: " + description);
+        System.out.println("Artist/Author: " + (artist != null ? artist : "Unknown"));
         System.out.println("Status: " + status);
-        System.out.println("Genres: " + String.join(", ", genres));
-        System.out.println("Tags: " + String.join(", ", tags));
-        System.out.println("Total chapters: " + chapters.size());
-        System.out.println("Total views: " + view);
+        System.out.println("Description: " + (description != null ? description : "No description available."));
+
+        System.out.println("Genres: ");
+        if (genres.isEmpty()) {
+            System.out.println("  None");
+        } else {
+            for (String genre : genres) {
+                System.out.println("  - " + genre);
+            }
+        }
+
+        System.out.println("Chapters: " + chapters.size());
     }
 
+    /**
+     * Returns a string representation of the book
+     *
+     * @return String containing basic book information
+     */
     @Override
     public String toString() {
         return "Book{" +
@@ -294,6 +317,4 @@ public abstract class Book {
                 ", chapters=" + chapters.size() +
                 '}';
     }
-
 }
-

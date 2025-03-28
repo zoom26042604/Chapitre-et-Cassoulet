@@ -117,6 +117,11 @@ public class DataLoader {
             String artist = extractStringField(json, "artist");
             String dateAddedStr = extractStringField(json, "dateAdded");
             List<String> genres = extractArrayField(json, "genres");
+            String type = extractStringField(json, "type");
+
+            boolean bookIsNovel = (type != null) ?
+                    type.equalsIgnoreCase(BookConstants.TYPE_NOVEL) :
+                    isNovel;
 
             Book book;
             if (isNovel) {
@@ -372,6 +377,4 @@ public class DataLoader {
 
         return parseBookInfo(json, isNovel);
     }
-
-
 }

@@ -165,8 +165,8 @@ public class BookDetailsPanel extends JPanel {
         }
 
         bookTitle.setText("Title: " + book.getTitle());
+        bookType.setText("Type: " + book.getType());
         bookAuthor.setText("Author/Artist: " + (book.getArtist() != null ? book.getArtist() : "Unknown"));
-        bookType.setText("Type: " + book.getClass().getSimpleName());
         bookStatus.setText("Status: " + book.getStatus());
         bookDescription.setText(book.getDescription() != null ? book.getDescription() : "No description available.");
 

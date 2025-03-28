@@ -7,6 +7,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class BookCataloguePanel extends JPanel {
     private JTable bookTable;
