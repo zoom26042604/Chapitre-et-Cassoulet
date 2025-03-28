@@ -1,0 +1,13 @@
+{
+  "id": 3,
+  "title": "Harry Potter à l'École des Sorciers",
+  "type": "romans",
+  "description": "On his eleventh birthday, Harry Potter, an orphan raised by an uncle and aunt who despise him, sees his life turned upside down. A giant comes to take him to Hogwarts, a school of witchcraft! Flying on a broomstick, casting spells, fighting trolls: Harry proves to be a gifted wizard. But a mystery surrounds his birth and the terrible V..., the dark wizard whose name no one dares to speak.",
+  "coverImage": "coverImage/cover-image.jpg",
+  "origin": "Royaume-Uni",
+  "translator": "Jean-François Ménard",
+  "genres": ["Fantasy", "Aventure", "Jeunesse", "Magie"],
+  "status": "Completed",
+  "artist": "J.K. Rowling",
+  "dateAdded": "2023-09-01"
+}
