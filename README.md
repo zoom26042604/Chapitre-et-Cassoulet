@@ -13,12 +13,13 @@ Welcome to the **Chapitre et Cassoulet** project! This project is a library mana
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/zoom26042604/chapitre-et-cassoulet.git
-    cd chapitre-et-cassoulet
+    git clone https://github.com/zoom26042604/Chapitre-et-Cassoulet.git
+    cd Chapitre-et-Cassoulet/src
     ```
 
 2. **Run the application**:
-    ```
+    ```sh
+    java main/java/fr/ynov/chapitre_et_cassoulet/Application.java
     ```
 
 ## 📂 Project Structure
