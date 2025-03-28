@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
+import javax.imageio.ImageIO;
 
 public class BookDetailsPanel extends JPanel {
     private JLabel bookCover;
@@ -200,29 +201,34 @@ public class BookDetailsPanel extends JPanel {
 
         if (coverPath != null && !coverPath.isEmpty()) {
             try {
-                File imageFile = new File(coverPath);
+                // Try to load from classpath resources first
+                String resourcePath = null;
 
-                if (!imageFile.exists()) {
-                    String bookType = book.getClass().getSimpleName().toLowerCase();
-                    String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
-                    String bookName = book.getTitle().replace(" ", " ");
-                    String authorName = book.getArtist() != null ? book.getArtist() : "Unknown";
+                // Generate potential resource paths
+                String bookType = book.getClass().getSimpleName().toLowerCase();
+                String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
+                String bookName = book.getTitle().replace(" ", " ");
+                String authorName = book.getArtist() != null ? book.getArtist() : "Unknown";
 
-                    String newPath = BookConstants.BOOKS_DIR + bookType + "s/" + bookDir + "/" +
+                // Try the original path first, adjusted for resources
+                resourcePath = "data/books/" + coverPath.substring(coverPath.indexOf("books/") + 6);
+
+                // If that doesn't work, try alternative paths
+                if (getClass().getClassLoader().getResourceAsStream(resourcePath) == null) {
+                    resourcePath = "data/books/" + bookType + "s/" + bookDir + "/" +
                             bookDir + "/" + bookName + " - " + authorName + ".jpg";
-                    imageFile = new File(newPath);
                 }
 
-                if (!imageFile.exists()) {
-                    String bookType = book.getClass().getSimpleName().toLowerCase();
-                    String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
-                    String correctedPath = BookConstants.BOOKS_DIR + bookType + "s/" + bookDir +
+                if (getClass().getClassLoader().getResourceAsStream(resourcePath) == null) {
+                    resourcePath = "data/books/" + bookType + "s/" + bookDir +
                             "/information/coverImage/cover-image.jpg";
-                    imageFile = new File(correctedPath);
                 }
 
-                if (imageFile.exists()) {
-                    ImageIcon originalIcon = new ImageIcon(imageFile.getPath());
+                // Try to load the image from the resource path
+                java.io.InputStream imageStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+
+                if (imageStream != null) {
+                    ImageIcon originalIcon = new ImageIcon(ImageIO.read(imageStream));
                     Image image = originalIcon.getImage();
 
                     int labelWidth = bookCover.getPreferredSize().width;
@@ -246,7 +252,8 @@ public class BookDetailsPanel extends JPanel {
                 }
             } catch (Exception e) {
                 bookCover.setIcon(null);
-                bookCover.setText("Error");
+                bookCover.setText("Error: " + e.getMessage());
+                e.printStackTrace();
             }
         } else {
             bookCover.setIcon(null);

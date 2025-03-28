@@ -1,117 +1,62 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.FileOperationException;
-import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
+import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
- * Manages file operations for the application including reading and writing files.
- * Handles serialization and deserialization of objects.
+ * Handles file operations for the application, including saving and loading
+ * the library data.
  */
 public class FileManager {
+    private static final String LIBRARY_FILE = "library.dat";
+    private static final String DATA_DIRECTORY = "src" + File.separator + "resources" + File.separator + "data";
 
     /**
-     * Default constructor
-     */
-    public FileManager() {
-        initializeDirectories();
-    }
-
-    /**
-     * Creates necessary directories for application data if they don't exist
-     */
-    private void initializeDirectories() {
-        try {
-            createDirectoryIfNotExists(BookConstants.DATA_DIR);
-            createDirectoryIfNotExists(BookConstants.BOOKS_DIR);
-        } catch (IOException e) {
-            System.err.println("Error creating application directories: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Creates a directory if it doesn't already exist
+     * Loads the library from a file
      *
-     * @param directoryPath Path of the directory to create
-     * @throws IOException If directory creation fails
-     */
-    private void createDirectoryIfNotExists(String directoryPath) throws IOException {
-        Path path = Paths.get(directoryPath);
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
-        }
-    }
-
-    /**
-     * Reads text from a file
-     *
-     * @param filePath Path to the file to read
-     * @return String containing the file contents
-     * @throws IOException If reading the file fails
-     */
-    public String readTextFile(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-    }
-
-    /**
-     * Writes text to a file
-     *
-     * @param filePath Path to the file to write
-     * @param content Text content to write to the file
-     * @throws IOException If writing to the file fails
-     */
-    public void writeTextFile(String filePath, String content) throws IOException {
-        Path path = Paths.get(filePath);
-        Files.createDirectories(path.getParent());
-        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
-    }
-
-    /**
-     * Deserializes an object from a file
-     *
-     * @param filePath Path of the file to read from
-     * @return The deserialized object
-     * @throws FileOperationException If deserialization or file reading fails
-     */
-    public Object loadObject(String filePath) throws FileOperationException {
-        try {
-            try (ObjectInputStream in = new ObjectInputStream(
-                    new BufferedInputStream(
-                            new FileInputStream(filePath)))) {
-                return in.readObject();
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new FileOperationException("Failed to load object: " + e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Loads the library from file or creates a new one if loading fails
-     *
-     * @return The loaded Library object
-     * @throws FileOperationException If loading fails and it's not because the file doesn't exist
+     * @return The loaded library
+     * @throws FileOperationException If the library cannot be loaded
      */
     public Library loadLibrary() throws FileOperationException {
-        String libraryFile = BookConstants.DATA_DIR + "library.dat";
-        File file = new File(libraryFile);
+        File file = new File(LIBRARY_FILE);
 
         if (file.exists()) {
-            try {
-                return (Library) loadObject(libraryFile);
-            } catch (FileOperationException e) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+                Library library = (Library) in.readObject();
+                System.out.println("Library loaded successfully from " + LIBRARY_FILE);
+                System.out.println("Loaded " + library.getCatalogue().size() + " books");
+                return library;
+            } catch (IOException | ClassNotFoundException e) {
                 throw new FileOperationException("Failed to load library: " + e.getMessage(), e);
             }
         } else {
-            return new Library();
+            throw new FileOperationException("Library file not found: " + LIBRARY_FILE);
         }
+    }
+
+    /**
+     * Gets the absolute path of the resources directory
+     *
+     * @return The absolute path to the resources directory
+     */
+    public String getResourcesPath() {
+        File resourcesDir = new File("src/resources");
+        if (!resourcesDir.exists()) {
+            // Try looking one directory up (for running from terminal)
+            resourcesDir = new File("../src/resources");
+            if (!resourcesDir.exists()) {
+                // Try looking from project root
+                resourcesDir = new File(System.getProperty("user.dir"), "src/resources");
+                if (!resourcesDir.exists()) {
+                    System.err.println("Could not locate resources directory");
+                }
+            }
+        }
+        return resourcesDir.getAbsolutePath();
     }
 }

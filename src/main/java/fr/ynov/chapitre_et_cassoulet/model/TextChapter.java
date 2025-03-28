@@ -54,40 +54,6 @@ public class TextChapter extends Chapter {
     }
 
     /**
-     * Loads content from the associated file into this chapter
-     *
-     * @throws ChapterContentException If content cannot be loaded
-     */
-    public void loadContent() throws ChapterContentException {
-        if (getFile() != null && !getFile().isEmpty()) {
-            try {
-                this.contentText = fileManager.readTextFile(getFile());
-            } catch (IOException e) {
-                throw new ChapterContentException("Failed to load chapter content: " + e.getMessage(), e);
-            }
-        } else {
-            throw new ChapterContentException("No file path specified for chapter.");
-        }
-    }
-
-    /**
-     * Saves the chapter content to its associated file
-     *
-     * @throws FileOperationException If the content cannot be saved to file
-     */
-    public void saveContent() throws FileOperationException {
-        if (getFile() != null && !getFile().isEmpty() && contentText != null) {
-            try {
-                fileManager.writeTextFile(getFile(), contentText);
-            } catch (IOException e) {
-                throw new FileOperationException("Failed to save chapter content: " + e.getMessage(), e);
-            }
-        } else {
-            throw new FileOperationException("Missing file path or content for chapter.");
-        }
-    }
-
-    /**
      * Displays the chapter content to the console
      * Implementation of the abstract method from Chapter class
      */

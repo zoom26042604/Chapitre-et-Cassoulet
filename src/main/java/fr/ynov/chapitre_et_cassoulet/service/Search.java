@@ -1,23 +1,17 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
-import main.java.fr.ynov.chapitre_et_cassoulet.exception.BookNotFoundException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
-import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
-import main.java.fr.ynov.chapitre_et_cassoulet.model.TextChapter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Service class providing search and filtering capabilities for the library system.
- * Allows searching books by various criteria including title, genre, status and content.
  */
 public class Search {
     private String keyword;
     private List<String> genres;
     private List<String> status;
-    private String textBook;
     private final Library library;
 
     /**
@@ -56,24 +50,6 @@ public class Search {
      */
     public void clearGenres() {
         this.genres.clear();
-    }
-
-    /**
-     * Gets the list of statuses used for filtering
-     *
-     * @return List of statuses
-     */
-    public List<String> getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets the list of statuses used for filtering
-     *
-     * @param status List of statuses
-     */
-    public void setStatus(List<String> status) {
-        this.status = status;
     }
 
     /**

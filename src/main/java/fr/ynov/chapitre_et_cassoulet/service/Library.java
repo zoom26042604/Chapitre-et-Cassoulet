@@ -2,85 +2,51 @@ package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.BookNotFoundException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
-import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Manages the library's catalogue of books and provides operations for searching,
- * adding, and retrieving books.
+ * Manages the library's book catalogue and provides methods
+ * for adding, retrieving, and searching for books.
  */
 public class Library implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private List<Book> catalogue;
+    private final List<Book> catalogue;
 
     /**
-     * Default constructor initializing an empty catalogue
+     * Creates a new empty library
      */
     public Library() {
-        this.catalogue = new ArrayList<>();
+        catalogue = new ArrayList<>();
     }
 
     /**
-     * Gets the entire book catalogue
+     * Gets all books in the catalogue
      *
-     * @return The list of all books in the library
+     * @return The full catalogue of books
      */
     public List<Book> getCatalogue() {
-        return catalogue;
-    }
-
-    /**
-     * Sets the library's catalogue
-     * This method is deprecated in favor of directly adding books
-     *
-     * @param catalogue The new catalogue to set
-     */
-    @Deprecated
-    public void setCatalogue(List<Book> catalogue) {
-        if (catalogue != null) {
-            this.catalogue = catalogue;
-        }
+        return new ArrayList<>(catalogue);
     }
 
     /**
      * Adds a book to the catalogue
      *
      * @param book The book to add
-     * @return true if the book was added, false otherwise
      */
-    public boolean addBook(Book book) {
-        if (book != null) {
-            return catalogue.add(book);
-        }
-        return false;
+    public void addBook(Book book) {
+        catalogue.add(book);
     }
 
     /**
-     * Removes a book from the catalogue
+     * Gets a specific book by ID
      *
-     * @param book The book to remove
-     * @return true if the book was removed, false otherwise
-     */
-    public boolean removeBook(Book book) {
-        if (book != null) {
-            return catalogue.remove(book);
-        }
-        return false;
-    }
-
-    /**
-     * Gets a book by its ID
-     *
-     * @param id The ID of the book to find
-     * @return The found book
-     * @throws BookNotFoundException If no book with the specified ID is found
+     * @param id The ID of the book to retrieve
+     * @return The book with the matching ID
+     * @throws BookNotFoundException If no book with the given ID is found
      */
     public Book getBookById(int id) throws BookNotFoundException {
         for (Book book : catalogue) {
@@ -170,23 +136,5 @@ public class Library implements Serializable {
      */
     public int getTotalBooks() {
         return catalogue.size();
-    }
-
-    /**
-     * Finds a chapter in any book by its ID
-     *
-     * @param chapterId The ID of the chapter to find
-     * @return The book and chapter pair if found
-     * @throws BookNotFoundException If the chapter isn't found in any book
-     */
-    public Object[] findChapterById(int chapterId) throws BookNotFoundException {
-        for (Book book : catalogue) {
-            for (Chapter chapter : book.getChapters()) {
-                if (chapter.getId() == chapterId) {
-                    return new Object[]{book, chapter};
-                }
-            }
-        }
-        throw new BookNotFoundException("Chapter with ID " + chapterId + " not found in any book");
     }
 }

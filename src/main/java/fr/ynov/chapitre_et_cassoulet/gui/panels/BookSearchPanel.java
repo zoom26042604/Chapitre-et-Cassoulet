@@ -50,7 +50,6 @@ public class BookSearchPanel extends JPanel {
         typeFilter.setPreferredSize(new Dimension(100, 25));
         typeFilter.addItem("All Types");
         typeFilter.addItem("Novel");
-        typeFilter.addItem("Manga");
         typeFilter.addItem("Roman");
         add(typeFilter);
 
