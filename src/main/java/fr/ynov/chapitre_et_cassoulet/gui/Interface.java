@@ -45,7 +45,7 @@ public class Interface extends JFrame {
         this.fileManager = new FileManager();
 
         setTitle("Chapitre et Cassoulet - Library Application");
-        setSize(1000, 600);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 

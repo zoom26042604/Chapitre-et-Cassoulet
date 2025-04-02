@@ -3,7 +3,23 @@ package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 
-import javax.swing.*;
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -15,7 +31,6 @@ import java.awt.event.MouseEvent;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
-import javax.imageio.ImageIO;
 
 public class BookDetailsPanel extends JPanel {
     private JLabel bookCover;
@@ -28,27 +43,68 @@ public class BookDetailsPanel extends JPanel {
     private JList<String> chaptersList;
     private List<Chapter> sortedChapters;
 
+    private final Color PANEL_BACKGROUND = new Color(252, 252, 252);
+    private final Color HEADER_COLOR = new Color(80, 80, 120);
+    private final Color BORDER_COLOR = new Color(220, 220, 220);
+    private final Color SECTION_BACKGROUND = new Color(245, 245, 250);
+
     /**
      * Constructor for the book details panel
      *
      * @param chapterClickListener Handler for chapter double-click events
      */
     public BookDetailsPanel(BiConsumer<Book, Chapter> chapterClickListener) {
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createEmptyBorder(5, 5, 5, 5),
-                BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Book Details")
+        setLayout(new BorderLayout());
+        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setBackground(PANEL_BACKGROUND);
+
+        JPanel mainContainer = new JPanel();
+        mainContainer.setLayout(new BoxLayout(mainContainer, BoxLayout.Y_AXIS));
+        mainContainer.setBackground(PANEL_BACKGROUND);
+
+        JPanel headerPanel = createHeaderPanel();
+        mainContainer.add(headerPanel);
+        mainContainer.add(Box.createVerticalStrut(10));
+
+        JPanel descriptionPanel = createDescriptionPanel();
+        mainContainer.add(descriptionPanel);
+        mainContainer.add(Box.createVerticalStrut(10));
+
+        JPanel genresPanel = createGenresPanel();
+        mainContainer.add(genresPanel);
+        mainContainer.add(Box.createVerticalStrut(10));
+
+        JPanel chaptersPanel = createChaptersPanel();
+        setupChaptersListeners(chapterClickListener);
+        mainContainer.add(chaptersPanel);
+
+        add(mainContainer, BorderLayout.CENTER);
+    }
+
+    private JPanel createHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout(15, 0));
+        headerPanel.setBackground(SECTION_BACKGROUND);
+        headerPanel.setBorder(new CompoundBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(BORDER_COLOR),
+                        "Book Overview",
+                        TitledBorder.LEFT,
+                        TitledBorder.TOP,
+                        new Font("Dialog", Font.BOLD, 12),
+                        HEADER_COLOR
+                ),
+                new EmptyBorder(8, 10, 8, 10)
         ));
 
         JPanel coverPanel = new JPanel(new BorderLayout());
-        coverPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 15));
+        coverPanel.setBackground(SECTION_BACKGROUND);
 
         bookCover = new JLabel();
-        bookCover.setPreferredSize(new Dimension(180, 240));
+        bookCover.setPreferredSize(new Dimension(160, 220));
         bookCover.setHorizontalAlignment(SwingConstants.CENTER);
         bookCover.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEmptyBorder(2, 2, 2, 2),
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1)
+                BorderFactory.createLineBorder(BORDER_COLOR, 1)
         ));
         bookCover.setBackground(Color.WHITE);
         bookCover.setOpaque(true);
@@ -56,88 +112,157 @@ public class BookDetailsPanel extends JPanel {
         bookCover.setFont(new Font("Dialog", Font.ITALIC, 12));
 
         coverPanel.add(bookCover, BorderLayout.CENTER);
-        add(coverPanel, BorderLayout.WEST);
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        infoPanel.setBackground(SECTION_BACKGROUND);
+        infoPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        Font labelFont = new Font("Dialog", Font.BOLD, 12);
-        Font contentFont = new Font("Dialog", Font.PLAIN, 12);
+        Font labelFont = new Font("Dialog", Font.BOLD, 13);
 
         bookTitle = new JLabel("Title: ");
-        bookTitle.setFont(labelFont);
+        bookTitle.setFont(new Font("Dialog", Font.BOLD, 15));
+        bookTitle.setForeground(new Color(50, 50, 100));
         bookTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(bookTitle);
-        infoPanel.add(Box.createVerticalStrut(8));
 
         bookAuthor = new JLabel("Author/Artist: ");
         bookAuthor.setFont(labelFont);
+        bookAuthor.setForeground(new Color(50, 50, 80));
         bookAuthor.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(bookAuthor);
-        infoPanel.add(Box.createVerticalStrut(8));
 
         bookType = new JLabel("Type: ");
         bookType.setFont(labelFont);
+        bookType.setForeground(new Color(50, 50, 80));
         bookType.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(bookType);
-        infoPanel.add(Box.createVerticalStrut(8));
 
         bookStatus = new JLabel("Status: ");
         bookStatus.setFont(labelFont);
+        bookStatus.setForeground(new Color(50, 50, 80));
         bookStatus.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        infoPanel.add(bookTitle);
+        infoPanel.add(Box.createVerticalStrut(10));
+        infoPanel.add(bookAuthor);
+        infoPanel.add(Box.createVerticalStrut(8));
+        infoPanel.add(bookType);
+        infoPanel.add(Box.createVerticalStrut(8));
         infoPanel.add(bookStatus);
-        infoPanel.add(Box.createVerticalStrut(12));
+        infoPanel.add(Box.createVerticalGlue());
 
-        JLabel descLabel = new JLabel("Description:");
-        descLabel.setFont(labelFont);
-        descLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(descLabel);
-        infoPanel.add(Box.createVerticalStrut(5));
+        headerPanel.add(coverPanel, BorderLayout.WEST);
+        headerPanel.add(infoPanel, BorderLayout.CENTER);
 
-        bookDescription = new JTextArea(5, 20);
+        return headerPanel;
+    }
+
+    private JPanel createDescriptionPanel() {
+        JPanel descPanel = new JPanel(new BorderLayout(0, 5));
+        descPanel.setBackground(SECTION_BACKGROUND);
+        descPanel.setBorder(new CompoundBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(BORDER_COLOR),
+                        "Description",
+                        TitledBorder.LEFT,
+                        TitledBorder.TOP,
+                        new Font("Dialog", Font.BOLD, 12),
+                        HEADER_COLOR
+                ),
+                new EmptyBorder(8, 10, 8, 10)
+        ));
+
+        bookDescription = new JTextArea(4, 20);
         bookDescription.setEditable(false);
         bookDescription.setLineWrap(true);
         bookDescription.setWrapStyleWord(true);
-        bookDescription.setFont(contentFont);
-        bookDescription.setBackground(new Color(250, 250, 250));
-        JScrollPane descScroll = new JScrollPane(bookDescription);
-        descScroll.setAlignmentX(Component.LEFT_ALIGNMENT);
-        descScroll.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
-        infoPanel.add(descScroll);
-        infoPanel.add(Box.createVerticalStrut(12));
+        bookDescription.setFont(new Font("Dialog", Font.PLAIN, 12));
+        bookDescription.setBackground(Color.WHITE);
+        bookDescription.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        JLabel genresLabel = new JLabel("Genres:");
-        genresLabel.setFont(labelFont);
-        genresLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(genresLabel);
-        infoPanel.add(Box.createVerticalStrut(5));
+        JScrollPane descScroll = new JScrollPane(bookDescription);
+        descScroll.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+
+        descPanel.add(descScroll, BorderLayout.CENTER);
+
+        return descPanel;
+    }
+
+    private JPanel createGenresPanel() {
+        JPanel genresPanel = new JPanel(new BorderLayout(0, 5));
+        genresPanel.setBackground(SECTION_BACKGROUND);
+        genresPanel.setBorder(new CompoundBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(BORDER_COLOR),
+                        "Genres",
+                        TitledBorder.LEFT,
+                        TitledBorder.TOP,
+                        new Font("Dialog", Font.BOLD, 12),
+                        HEADER_COLOR
+                ),
+                new EmptyBorder(8, 10, 8, 10)
+        ));
 
         genresList = new JList<>();
-        genresList.setFont(contentFont);
+        genresList.setFont(new Font("Dialog", Font.PLAIN, 12));
         genresList.setVisibleRowCount(3);
-        genresList.setBackground(new Color(250, 250, 250));
-        JScrollPane genresScroll = new JScrollPane(genresList);
-        genresScroll.setAlignmentX(Component.LEFT_ALIGNMENT);
-        genresScroll.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
-        infoPanel.add(genresScroll);
-        infoPanel.add(Box.createVerticalStrut(12));
+        genresList.setBackground(Color.WHITE);
+        genresList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                label.setBorder(new EmptyBorder(2, 5, 2, 5));
+                return label;
+            }
+        });
 
-        JLabel chaptersLabel = new JLabel("Chapters:");
-        chaptersLabel.setFont(labelFont);
-        chaptersLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        infoPanel.add(chaptersLabel);
-        infoPanel.add(Box.createVerticalStrut(5));
+        JScrollPane genresScroll = new JScrollPane(genresList);
+        genresScroll.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+
+        genresPanel.add(genresScroll, BorderLayout.CENTER);
+
+        return genresPanel;
+    }
+
+    private JPanel createChaptersPanel() {
+        JPanel chaptersPanel = new JPanel(new BorderLayout(0, 5));
+        chaptersPanel.setBackground(SECTION_BACKGROUND);
+        chaptersPanel.setBorder(new CompoundBorder(
+                BorderFactory.createTitledBorder(
+                        BorderFactory.createLineBorder(BORDER_COLOR),
+                        "Chapters",
+                        TitledBorder.LEFT,
+                        TitledBorder.TOP,
+                        new Font("Dialog", Font.BOLD, 12),
+                        HEADER_COLOR
+                ),
+                new EmptyBorder(8, 10, 8, 10)
+        ));
 
         chaptersList = new JList<>();
-        chaptersList.setFont(contentFont);
+        chaptersList.setFont(new Font("Dialog", Font.PLAIN, 12));
         chaptersList.setVisibleRowCount(6);
-        chaptersList.setBackground(new Color(250, 250, 250));
-        JScrollPane chaptersScroll = new JScrollPane(chaptersList);
-        chaptersScroll.setAlignmentX(Component.LEFT_ALIGNMENT);
-        chaptersScroll.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220)));
-        infoPanel.add(chaptersScroll);
+        chaptersList.setBackground(Color.WHITE);
+        chaptersList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus);
+                label.setBorder(new EmptyBorder(3, 5, 3, 5));
+                return label;
+            }
+        });
 
+        JScrollPane chaptersScroll = new JScrollPane(chaptersList);
+        chaptersScroll.setBorder(BorderFactory.createLineBorder(BORDER_COLOR));
+
+        chaptersPanel.add(chaptersScroll, BorderLayout.CENTER);
+
+        return chaptersPanel;
+    }
+
+    private void setupChaptersListeners(BiConsumer<Book, Chapter> chapterClickListener) {
         chaptersList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -153,8 +278,6 @@ public class BookDetailsPanel extends JPanel {
                 }
             }
         });
-
-        add(infoPanel, BorderLayout.CENTER);
     }
 
     /**
