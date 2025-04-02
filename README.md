@@ -59,4 +59,17 @@ The `BookCataloguePanel` shows a table of all books in the library. Users can se
 - **[Nathan FERRE](https://github.com/zoom26042604)**
 
 
+### 📋 Book List
 
+Below is a list of books currently available in the Chapitre et Cassoulet library:
+
+#### Novels
+| ID | Title                 | Status    | Origin | Translator           |
+|----|-----------------------|-----------|--------|----------------------|
+| 1  | Shadow Slave          | Ongoing   | Russia | Anonymous            |
+| 2  | Lord of the Mysteries | Completed | China  | Qidian International |
+
+#### Romans (Comic Books)
+| ID | Title                               | Status    | Series       | Illustrator   |
+|----|-------------------------------------|-----------|--------------|---------------|
+| 3  | Harry Potter to the Wizardly School | Completed | Harry Potter | Mary GrandPré |
