@@ -11,18 +11,23 @@ Welcome to the **Chapitre et Cassoulet** project! This project is a library mana
 
 ## 🛠️ Installation
 
-1. **Clone the repository**:
+1. **Install Java Development Kit (JDK 23 or later)**:
+   - Download and install JDK 23 or later from the [Oracle website](https://www.oracle.com/java/technologies/downloads/).
+   - This application requires JDK 23 or a newer version to run properly.
+   
+   
+2. **Clone the repository**:
     ```sh
     git clone https://github.com/zoom26042604/Chapitre-et-Cassoulet.git
     cd Chapitre-et-Cassoulet/src
     ```
 
-2. **Run the application (May not work be careful)**:
+3. **Run the application (May not work be careful)**:
     ```sh
     java main/java/fr/ynov/chapitre_et_cassoulet/Application.java
     ```
    
-3. **Or you can run the application by building the Application.java class**:
+4. **Or you can run the application by building the Application.java class**:
 
 ## 📂 Project Structure
 
