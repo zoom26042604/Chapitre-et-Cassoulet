@@ -17,10 +17,12 @@ Welcome to the **Chapitre et Cassoulet** project! This project is a library mana
     cd Chapitre-et-Cassoulet/src
     ```
 
-2. **Run the application**:
+2. **Run the application (May not work be careful)**:
     ```sh
     java main/java/fr/ynov/chapitre_et_cassoulet/Application.java
     ```
+   
+3. **Or you can run the application by building the Application.java class**:
 
 ## 📂 Project Structure
 
@@ -31,6 +33,12 @@ Welcome to the **Chapitre et Cassoulet** project! This project is a library mana
 - `src/main/java/fr/ynov/chapitre_et_cassoulet/service/`: Service classes for managing library operations.
 - `src/main/java/fr/ynov/chapitre_et_cassoulet/exception/`: Custom exceptions used in the application.
 - `src/main/java/fr/ynov/chapitre_et_cassoulet/utils/`: Utility classes and constants.
+
+## 📊 Class Diagram
+
+Below is the class diagram representing the architecture of the Chapitre et Cassoulet application:
+
+![Class Diagram](Chapitre-Et-Cassoulet.png)
 
 ## 📖 Usage
 
@@ -47,6 +55,8 @@ The `BookDetailsPanel` displays detailed information about a selected book, incl
 The `BookCataloguePanel` shows a table of all books in the library. Users can select a book to view its details in the `BookDetailsPanel`.
 
 ## 👥 Contributors
+[![Nathan FERRE](https://github.com/zoom26042604.png?size=100)](https://github.com/zoom26042604) 
+- **[Nathan FERRE](https://github.com/zoom26042604)**
 
-- **zoom26042604** - [GitHub Profile](https://github.com/zoom26042604)
+
 
