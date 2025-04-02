@@ -1,5 +1,6 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.model;
 
+import main.java.fr.ynov.chapitre_et_cassoulet.exception.ChapterContentException;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -47,5 +48,16 @@ public class TextChapter extends Chapter implements Serializable {
      */
     public void setContentText(String contentText) {
         this.contentText = contentText;
+    }
+
+    /**
+     * Validates that the chapter has proper content
+     *
+     * @throws ChapterContentException If the content is invalid or missing
+     */
+    public void validateContent() throws ChapterContentException {
+        if (contentText == null || contentText.isEmpty()) {
+            throw new ChapterContentException("Chapter " + getNumOrder() + " (" + getTitle() + ") has no content");
+        }
     }
 }

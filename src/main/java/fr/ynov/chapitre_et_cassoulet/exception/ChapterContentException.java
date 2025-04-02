@@ -1,10 +1,13 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.exception;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when content cannot be loaded for a chapter.
  * Extends FileOperationException to maintain hierarchy.
  */
 public class ChapterContentException extends FileOperationException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

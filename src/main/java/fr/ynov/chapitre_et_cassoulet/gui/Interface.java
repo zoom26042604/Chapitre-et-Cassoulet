@@ -11,12 +11,14 @@ import main.java.fr.ynov.chapitre_et_cassoulet.gui.utils.BookUIUtils;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.Serial;
 
 /**
  * Main graphical user interface for the library application.
  * Provides the ability to view, search, and filter books in the library.
  */
 public class Interface extends JFrame {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Library library;

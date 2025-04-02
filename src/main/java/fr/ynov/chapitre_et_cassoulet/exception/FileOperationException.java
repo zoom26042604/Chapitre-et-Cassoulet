@@ -1,11 +1,14 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.exception;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when file operations fail.
  * Used as a base class for more specific file-related exceptions in the application.
  */
 public class FileOperationException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

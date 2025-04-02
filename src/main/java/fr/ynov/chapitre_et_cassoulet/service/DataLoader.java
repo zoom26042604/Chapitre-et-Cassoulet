@@ -1,5 +1,6 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
+import main.java.fr.ynov.chapitre_et_cassoulet.exception.ChapterContentException;
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.FileOperationException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Novel;
@@ -39,10 +40,16 @@ public class DataLoader {
             int chapterNumber = extractIntField(json, "chapterNumber");
             String content = extractStringField(json, "contentText");
 
+            if (content == null || content.isEmpty()) {
+                throw new ChapterContentException("Chapter content is empty or missing");
+            }
+
             TextChapter chapter = new TextChapter(id, title, chapterNumber);
             chapter.setContentText(content);
 
             return chapter;
+        } catch (ChapterContentException e) {
+            throw e;
         } catch (Exception e) {
             throw new FileOperationException("Error parsing chapter: " + e.getMessage(), e);
         }
@@ -228,8 +235,15 @@ public class DataLoader {
     }
 
     public TextChapter loadChapterFromFile(String filePath) throws FileOperationException {
-        String jsonContent = readFile(filePath);
-        return parseChapter(jsonContent);
+        try {
+            String jsonContent = readFile(filePath);
+            return parseChapter(jsonContent);
+        } catch (FileOperationException e) {
+            if (e instanceof ChapterContentException) {
+                throw e;
+            }
+            throw new ChapterContentException("Failed to load chapter content from " + filePath, e);
+        }
     }
 
     public Book parseBook(String json) throws FileOperationException {

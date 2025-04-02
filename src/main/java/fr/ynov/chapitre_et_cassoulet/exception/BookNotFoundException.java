@@ -1,10 +1,13 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.exception;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when a requested book cannot be found
  */
 public class BookNotFoundException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

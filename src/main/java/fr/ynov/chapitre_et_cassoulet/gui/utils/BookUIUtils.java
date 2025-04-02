@@ -1,6 +1,7 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.gui.utils;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.BookNotFoundException;
+import main.java.fr.ynov.chapitre_et_cassoulet.exception.ChapterContentException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.TextChapter;
@@ -67,11 +68,19 @@ public class BookUIUtils {
 
         JTextArea contentArea = new JTextArea();
 
-        if (chapter instanceof TextChapter) {
-            TextChapter textChapter = (TextChapter) chapter;
-            contentArea.setText(textChapter.getContentText());
-        } else {
-            contentArea.setText("This chapter format is not supported for reading.");
+        try {
+            if (chapter instanceof TextChapter) {
+                TextChapter textChapter = (TextChapter) chapter;
+                textChapter.validateContent();
+                contentArea.setText(textChapter.getContentText());
+            } else {
+                contentArea.setText("This chapter format is not supported for reading.");
+            }
+        } catch (ChapterContentException e) {
+            JOptionPane.showMessageDialog(parentFrame,
+                    "Error loading chapter content: " + e.getMessage(),
+                    "Chapter Content Error", JOptionPane.ERROR_MESSAGE);
+            contentArea.setText("Unable to load chapter content. The content may be missing or corrupted.");
         }
 
         contentArea.setEditable(false);
