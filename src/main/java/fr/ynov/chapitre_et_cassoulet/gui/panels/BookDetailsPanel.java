@@ -227,25 +227,19 @@ public class BookDetailsPanel extends JPanel {
                             normalizedTitle)
             };
 
-            System.out.println("Normalized title: " + normalizedTitle);
-
             java.io.InputStream imageStream = null;
 
             for (String path : possiblePaths) {
                 if (path == null || path.isEmpty()) continue;
 
-                System.out.println("Trying path: " + path);
-
                 imageStream = getClass().getClassLoader().getResourceAsStream(path);
                 if (imageStream != null) {
-                    System.out.println("Found as resource: " + path);
                     break;
                 }
 
                 java.io.File file = new java.io.File(path);
                 if (file.exists()) {
                     imageStream = new java.io.FileInputStream(file);
-                    System.out.println("Found as file: " + path);
                     break;
                 }
             }
@@ -272,7 +266,6 @@ public class BookDetailsPanel extends JPanel {
             } else {
                 bookCover.setIcon(null);
                 bookCover.setText("No Cover");
-                System.out.println("No image found for: " + book.getTitle());
             }
         } catch (Exception e) {
             bookCover.setIcon(null);
