@@ -8,9 +8,13 @@ import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookDetailsPanel;
 import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookSearchPanel;
 import main.java.fr.ynov.chapitre_et_cassoulet.gui.utils.BookUIUtils;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.io.Serial;
 
 /**

@@ -4,7 +4,12 @@ import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Comparator;

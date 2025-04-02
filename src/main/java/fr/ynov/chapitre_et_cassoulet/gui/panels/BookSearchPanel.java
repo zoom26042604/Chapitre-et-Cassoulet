@@ -2,8 +2,13 @@ package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.service.Library;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
 public class BookSearchPanel extends JPanel {

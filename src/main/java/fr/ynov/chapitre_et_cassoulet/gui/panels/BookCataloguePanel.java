@@ -2,10 +2,14 @@ package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.List;
 
 public class BookCataloguePanel extends JPanel {

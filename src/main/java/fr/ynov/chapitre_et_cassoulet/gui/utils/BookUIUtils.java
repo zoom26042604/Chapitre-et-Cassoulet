@@ -12,7 +12,11 @@ import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookDetailsPanel;
 import main.java.fr.ynov.chapitre_et_cassoulet.gui.panels.BookSearchPanel;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
