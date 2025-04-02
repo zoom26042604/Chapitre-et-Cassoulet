@@ -1,12 +1,8 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.service;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.FileOperationException;
-import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Handles file operations for the application, including saving and loading
@@ -47,10 +43,8 @@ public class FileManager {
     public String getResourcesPath() {
         File resourcesDir = new File("src/resources");
         if (!resourcesDir.exists()) {
-            // Try looking one directory up (for running from terminal)
             resourcesDir = new File("../src/resources");
             if (!resourcesDir.exists()) {
-                // Try looking from project root
                 resourcesDir = new File(System.getProperty("user.dir"), "src/resources");
                 if (!resourcesDir.exists()) {
                     System.err.println("Could not locate resources directory");

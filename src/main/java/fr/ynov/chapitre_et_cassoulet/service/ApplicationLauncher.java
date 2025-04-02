@@ -104,7 +104,6 @@ public class ApplicationLauncher {
                                 try {
                                     TextChapter chapter = dataLoader.loadChapterFromFile(chapterFile.getPath());
                                     book.addChapter(chapter);
-                                    // Removed the individual chapter logging
                                 } catch (FileOperationException e) {
                                     System.err.println("Error loading chapter from " + chapterFile.getPath() + ": " + e.getMessage());
                                 }

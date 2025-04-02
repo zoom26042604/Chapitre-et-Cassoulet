@@ -3,6 +3,7 @@ package main.java.fr.ynov.chapitre_et_cassoulet.service;
 import main.java.fr.ynov.chapitre_et_cassoulet.exception.BookNotFoundException;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  * for adding, retrieving, and searching for books.
  */
 public class Library implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final List<Book> catalogue;

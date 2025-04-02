@@ -6,7 +6,6 @@ import main.java.fr.ynov.chapitre_et_cassoulet.model.Novel;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Roman;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.TextChapter;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

@@ -1,43 +1,41 @@
 package main.java.fr.ynov.chapitre_et_cassoulet.model;
 
-import java.util.Date;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * Abstract class representing a chapter in a book.
- * Provides base functionality for all chapter types.
+ * Represents a chapter in a book.
+ * Base class for different types of chapters.
  */
-public abstract class Chapter {
+public class Chapter implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private int id;
     private String title;
-    private String file;
     private int numOrder;
-    private Date dateAdded;
-    private int view;
 
     /**
-     * Default constructor initializing timestamps and view count
+     * Default constructor
      */
-    protected Chapter() {
-        this.dateAdded = new Date();
-        this.view = 0;
+    public Chapter() {
     }
 
     /**
-     * Parameterized constructor for creating a chapter with basic information
+     * Constructor with essential chapter properties
      *
-     * @param id The unique identifier for the chapter
-     * @param title The title of the chapter
-     * @param numOrder The order number/position of the chapter in the book
+     * @param id Chapter identifier
+     * @param title Chapter title
+     * @param numOrder Chapter order number
      */
-    protected Chapter(int id, String title, int numOrder) {
-        this();
+    public Chapter(int id, String title, int numOrder) {
         this.id = id;
         this.title = title;
         this.numOrder = numOrder;
     }
 
     /**
-     * Gets the chapter's unique identifier
+     * Gets the unique identifier of the chapter
      *
      * @return The chapter's ID
      */
@@ -46,7 +44,7 @@ public abstract class Chapter {
     }
 
     /**
-     * Sets the chapter's unique identifier
+     * Sets the unique identifier of the chapter
      *
      * @param id The ID to set
      */
@@ -55,16 +53,16 @@ public abstract class Chapter {
     }
 
     /**
-     * Gets the chapter's title
+     * Gets the title of the chapter
      *
-     * @return The title
+     * @return The chapter's title
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Sets the chapter's title
+     * Sets the title of the chapter
      *
      * @param title The title to set
      */
@@ -73,100 +71,20 @@ public abstract class Chapter {
     }
 
     /**
-     * Gets the file path associated with the chapter
+     * Gets the order number of the chapter in the book
      *
-     * @return The file path
-     */
-    public String getFile() {
-        return file;
-    }
-
-    /**
-     * Sets the file path associated with the chapter
-     *
-     * @param file The file path to set
-     */
-    public void setFile(String file) {
-        this.file = file;
-    }
-
-    /**
-     * Gets the order number of this chapter in its book
-     *
-     * @return The order number
+     * @return The chapter's order number
      */
     public int getNumOrder() {
         return numOrder;
     }
 
     /**
-     * Sets the order number of this chapter in its book
+     * Sets the order number of the chapter in the book
      *
      * @param numOrder The order number to set
      */
     public void setNumOrder(int numOrder) {
         this.numOrder = numOrder;
-    }
-
-    /**
-     * Gets the date when this chapter was added
-     *
-     * @return The date added
-     */
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    /**
-     * Sets the date when this chapter was added
-     *
-     * @param dateAdded The date to set
-     */
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
-    }
-
-    /**
-     * Gets the view count for this chapter
-     *
-     * @return The number of views
-     */
-    public int getView() {
-        return view;
-    }
-
-    /**
-     * Sets the view count for this chapter
-     *
-     * @param view The view count to set
-     */
-    public void setView(int view) {
-        this.view = view;
-    }
-
-    /**
-     * Increments the view count for this chapter
-     */
-    public void incrementView() {
-        this.view++;
-    }
-
-    /**
-     * Abstract method to be implemented by subclasses to display chapter content
-     */
-    public abstract void displayContent();
-
-    /**
-     * Displays basic information about the chapter
-     */
-    public void display() {
-        System.out.println("Chapter " + numOrder + ": " + title);
-        System.out.println("Added on: " + dateAdded);
-        System.out.println("Views: " + view);
-    }
-
-    @Override
-    public String toString() {
-        return "Chapter " + numOrder + ": " + title;
     }
 }

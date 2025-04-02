@@ -2,13 +2,11 @@ package main.java.fr.ynov.chapitre_et_cassoulet.gui.panels;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Book;
 import main.java.fr.ynov.chapitre_et_cassoulet.model.Chapter;
-import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -201,19 +199,15 @@ public class BookDetailsPanel extends JPanel {
 
         if (coverPath != null && !coverPath.isEmpty()) {
             try {
-                // Try to load from classpath resources first
                 String resourcePath = null;
 
-                // Generate potential resource paths
                 String bookType = book.getClass().getSimpleName().toLowerCase();
                 String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
                 String bookName = book.getTitle().replace(" ", " ");
                 String authorName = book.getArtist() != null ? book.getArtist() : "Unknown";
 
-                // Try the original path first, adjusted for resources
                 resourcePath = "data/books/" + coverPath.substring(coverPath.indexOf("books/") + 6);
 
-                // If that doesn't work, try alternative paths
                 if (getClass().getClassLoader().getResourceAsStream(resourcePath) == null) {
                     resourcePath = "data/books/" + bookType + "s/" + bookDir + "/" +
                             bookDir + "/" + bookName + " - " + authorName + ".jpg";
@@ -224,7 +218,6 @@ public class BookDetailsPanel extends JPanel {
                             "/information/coverImage/cover-image.jpg";
                 }
 
-                // Try to load the image from the resource path
                 java.io.InputStream imageStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
 
                 if (imageStream != null) {

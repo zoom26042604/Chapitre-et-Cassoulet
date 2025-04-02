@@ -2,11 +2,14 @@ package main.java.fr.ynov.chapitre_et_cassoulet.model;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
 
+import java.io.Serial;
+
 /**
  * Represents a roman (comic book) type in the library.
  * Contains specific properties for roman such as series and illustrator information.
  */
 public class Roman extends Book {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private String series;
@@ -79,22 +82,5 @@ public class Roman extends Book {
         System.out.println("Type: " + BookConstants.TYPE_ROMAN);
         System.out.println("Series: " + (series != null ? series : "Standalone"));
         System.out.println("Illustrator: " + (illustrator != null ? illustrator : "Unknown"));
-    }
-
-    /**
-     * Returns a string representation of the roman
-     *
-     * @return String containing roman information
-     */
-    @Override
-    public String toString() {
-        return "Roman{" +
-                "id=" + getId() +
-                ", title='" + getTitle() + '\'' +
-                ", series='" + series + '\'' +
-                ", illustrator='" + illustrator + '\'' +
-                ", status='" + getStatus() + '\'' +
-                ", chapters=" + getChapters().size() +
-                '}';
     }
 }

@@ -2,11 +2,14 @@ package main.java.fr.ynov.chapitre_et_cassoulet.model;
 
 import main.java.fr.ynov.chapitre_et_cassoulet.utils.BookConstants;
 
+import java.io.Serial;
+
 /**
- * Represents a novel type of book in the library.
- * Contains specific properties for novels like origin and translator information.
+ * Represents a novel type in the library.
+ * Contains specific properties for novels such as origin and translator information.
  */
 public class Novel extends Book {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private String origin;
@@ -34,16 +37,16 @@ public class Novel extends Book {
     }
 
     /**
-     * Gets the origin country/language of the novel
+     * Gets the origin of the novel
      *
-     * @return The origin of the novel
+     * @return The origin
      */
     public String getOrigin() {
         return origin;
     }
 
     /**
-     * Sets the origin country/language of the novel
+     * Sets the origin of the novel
      *
      * @param origin The origin to set
      */
@@ -52,7 +55,7 @@ public class Novel extends Book {
     }
 
     /**
-     * Gets the translator of the novel if applicable
+     * Gets the translator of the novel
      *
      * @return The translator's name
      */
@@ -78,23 +81,6 @@ public class Novel extends Book {
         super.displayDetails();
         System.out.println("Type: " + BookConstants.TYPE_NOVEL);
         System.out.println("Origin: " + (origin != null ? origin : "Unknown"));
-        System.out.println("Translator: " + (translator != null ? translator : "Unknown"));
-    }
-
-    /**
-     * Returns a string representation of the novel
-     *
-     * @return String containing novel information
-     */
-    @Override
-    public String toString() {
-        return "Novel{" +
-                "id=" + getId() +
-                ", title='" + getTitle() + '\'' +
-                ", origin='" + origin + '\'' +
-                ", translator='" + translator + '\'' +
-                ", status='" + getStatus() + '\'' +
-                ", chapters=" + getChapters().size() +
-                '}';
+        System.out.println("Translator: " + (translator != null ? translator : "None"));
     }
 }
