@@ -202,60 +202,83 @@ public class BookDetailsPanel extends JPanel {
     private void loadBookCover(Book book) {
         String coverPath = book.getCoverImagePath();
 
-        if (coverPath != null && !coverPath.isEmpty()) {
-            try {
-                String resourcePath = null;
+        try {
+            String normalizedTitle = book.getTitle()
+                    .toLowerCase()
+                    .replaceAll("[\\s'']", "")
+                    .replaceAll("[àáâãäå]", "a")
+                    .replaceAll("[èéêë]", "e")
+                    .replaceAll("[ìíîï]", "i")
+                    .replaceAll("[òóôõö]", "o")
+                    .replaceAll("[ùúûü]", "u");
 
-                String bookType = book.getClass().getSimpleName().toLowerCase();
-                String bookDir = book.getTitle().replaceAll("\\s+", "").toLowerCase();
-                String bookName = book.getTitle().replace(" ", " ");
-                String authorName = book.getArtist() != null ? book.getArtist() : "Unknown";
+            String bookType = book.getClass().getSimpleName().toLowerCase();
+            String typePlural = bookType.equals("roman") ? "romans" : bookType + "s";
 
-                resourcePath = "data/books/" + coverPath.substring(coverPath.indexOf("books/") + 6);
+            String[] possiblePaths = {
+                    coverPath,
 
-                if (getClass().getClassLoader().getResourceAsStream(resourcePath) == null) {
-                    resourcePath = "data/books/" + bookType + "s/" + bookDir + "/" +
-                            bookDir + "/" + bookName + " - " + authorName + ".jpg";
-                }
+                    String.format("resources/data/books/%s/%s/information/coverImage/cover-image.jpg",
+                            typePlural,
+                            normalizedTitle),
 
-                if (getClass().getClassLoader().getResourceAsStream(resourcePath) == null) {
-                    resourcePath = "data/books/" + bookType + "s/" + bookDir +
-                            "/information/coverImage/cover-image.jpg";
-                }
+                    String.format("src/resources/data/books/%s/%s/information/coverImage/cover-image.jpg",
+                            typePlural,
+                            normalizedTitle)
+            };
 
-                java.io.InputStream imageStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
+            System.out.println("Normalized title: " + normalizedTitle);
 
+            java.io.InputStream imageStream = null;
+
+            for (String path : possiblePaths) {
+                if (path == null || path.isEmpty()) continue;
+
+                System.out.println("Trying path: " + path);
+
+                imageStream = getClass().getClassLoader().getResourceAsStream(path);
                 if (imageStream != null) {
-                    ImageIcon originalIcon = new ImageIcon(ImageIO.read(imageStream));
-                    Image image = originalIcon.getImage();
-
-                    int labelWidth = bookCover.getPreferredSize().width;
-                    int labelHeight = bookCover.getPreferredSize().height;
-
-                    double widthRatio = (double) labelWidth / originalIcon.getIconWidth();
-                    double heightRatio = (double) labelHeight / originalIcon.getIconHeight();
-                    double ratio = Math.min(widthRatio, heightRatio);
-
-                    int width = (int) (originalIcon.getIconWidth() * ratio);
-                    int height = (int) (originalIcon.getIconHeight() * ratio);
-
-                    Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                    ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-                    bookCover.setIcon(scaledIcon);
-                    bookCover.setText("");
-                } else {
-                    bookCover.setIcon(null);
-                    bookCover.setText("No Cover");
+                    System.out.println("Found as resource: " + path);
+                    break;
                 }
-            } catch (Exception e) {
-                bookCover.setIcon(null);
-                bookCover.setText("Error: " + e.getMessage());
-                e.printStackTrace();
+
+                java.io.File file = new java.io.File(path);
+                if (file.exists()) {
+                    imageStream = new java.io.FileInputStream(file);
+                    System.out.println("Found as file: " + path);
+                    break;
+                }
             }
-        } else {
+
+            if (imageStream != null) {
+                ImageIcon originalIcon = new ImageIcon(ImageIO.read(imageStream));
+                Image image = originalIcon.getImage();
+
+                int labelWidth = bookCover.getPreferredSize().width;
+                int labelHeight = bookCover.getPreferredSize().height;
+
+                double widthRatio = (double) labelWidth / originalIcon.getIconWidth();
+                double heightRatio = (double) labelHeight / originalIcon.getIconHeight();
+                double ratio = Math.min(widthRatio, heightRatio);
+
+                int width = (int) (originalIcon.getIconWidth() * ratio);
+                int height = (int) (originalIcon.getIconHeight() * ratio);
+
+                Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+                bookCover.setIcon(scaledIcon);
+                bookCover.setText("");
+            } else {
+                bookCover.setIcon(null);
+                bookCover.setText("No Cover");
+                System.out.println("No image found for: " + book.getTitle());
+            }
+        } catch (Exception e) {
             bookCover.setIcon(null);
-            bookCover.setText("No Cover");
+            bookCover.setText("Error");
+            System.err.println("Error loading cover for " + book.getTitle() + ": " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
